@@ -10,7 +10,7 @@ Generate the certificate using openssl, to use a certificate in windows to encry
 We pass that using a myconfig.cnf file, find the one I used as example in this repository
 
 
-* Highlights from myconfig.cnf
+*Highlights from myconfig.cnf
 keyUsage = keyEncipherment , dataEncipherment
 extendedKeyUsage = "1.3.6.1.4.1.311.80.1"*
 
