@@ -23,3 +23,38 @@ Generate the private key (this one never leaves our computer), and the public ce
 openssl req -x509 -newkey rsa:4096 -keyout kabu_private.pem -out kabu_cert.pem -sha256 -config myconfig.cnf -extensions v3_req
 ```
 
+# Powershell
+In the machine where you want encrypt, in this case a secret encryption key, you have to install that public certificate, you can embed in on the powershell code, it's only text at the end, or you can copy the file and read it. All the code is in the **enc_rsa.ps1** file, and is as follows:
+To read the file and create a certificate object:
+```
+$SourceCertificate = Get-Content -Path '.\kabu_cert.pem' 
+$EncCert=[Convert]::FromBase64String( ($SourceCertificate)[1..($SourceCertificate.Count -2 )] -as [string] )
+$cert = [System.Security.Cryptography.X509Certificates.X509Certificate]::new($EncCert)
+```
+
+To install it into the user Certificate Vault *CurrentUser\My*:
+```
+$dstStore = New-Object System.Security.Cryptography.X509Certificates.X509Store "My","CurrentUser"
+$dstStore.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite)
+$dstStore.Add($cert)
+$dstStore.Close
+```
+
+Once in the vault, you can see it, and take note on the *Subject* name with:
+```
+Get-Childitem -Path Cert:\CurrentUser\My -DocumentEncryptionCert
+```
+(![image](https://user-images.githubusercontent.com/43006263/156067358-e9ea4f41-caae-4dae-8e87-35b6dbd42e05.png)
+
+To encrypt any text (our secret key here) just pass it to the **Protect-CmsMessage** and use the **Subject** of the cert as the **-To** parameter, the output text is the one we have to exfiltrate to our C2.
+
+# Decrypt
+
+To decrypt the message, you just need the message on a file (*text.enc in this example*), the public cert used to encrypt (*kabu_cert.pem*) and the private key (*kabu_private.pem*), also the password used when you generate the certificates will be asked (*12345678 if you use the certs on the example*)
+```
+openssl cms -decrypt -in text.enc -recip kabu_cert.pem -inkey kabu_private.pem -inform PEM
+```
+# End
+
+That's all, by no means I'm an expert on cryptography, if you find any problem, or something not right don't hesitate to contact me. Don't use this to do anything I wouldn't do! 
+
