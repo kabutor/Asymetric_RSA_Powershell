@@ -11,7 +11,9 @@ We pass that using a myconfig.cnf file, find the one I used as example in this r
 
 
 *Highlights from myconfig.cnf
+
 keyUsage = keyEncipherment , dataEncipherment
+
 extendedKeyUsage = "1.3.6.1.4.1.311.80.1"*
 
 Generate the private key, and the public certificate typing:
