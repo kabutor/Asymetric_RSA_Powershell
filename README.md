@@ -18,7 +18,7 @@ keyUsage = keyEncipherment , dataEncipherment
 extendedKeyUsage = "1.3.6.1.4.1.311.80.1"
 ```
 
-Generate the private key (this one never leaves our computer), and the public certificate typing (the one we send to the remote machine to encrypt information):
+Generate the private key (this one never leaves our computer), and the public certificate (the one we send to the remote machine to encrypt information) with:
 
 ```
 openssl req -x509 -newkey rsa:4096 -keyout kabu_private.pem -out kabu_cert.pem -sha256 -config myconfig.cnf -extensions v3_req
