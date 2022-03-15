@@ -5,9 +5,9 @@ For that you have to use asymetric encryption, generate a private key, and a pub
 
 The objective was to do in in powershell, the documentation I found about this subject is not very clear, I m trying to fix that with these document/repository.
 
-# The Certificates
+# The Certificate
 
-Generate the certificate using openssl, to use a certificate in windows to encrypt files you need to pass some extra options to openssl that is key usage must have either *keyEncipherment* or *dataEcipherment* (we'll pass both) and in the **Extended Key Usage** field you have to had the value "*Document Encryption*" or in the case on openssl we have to use it's numeral value "1.3.6.1.4.1.311.80.1".
+Generate the certificate using openssl, to use a certificate in windows to encrypt files you need to pass some extra options to openssl, that certificate must have in the **keyUsage** parameter either *keyEncipherment* or *dataEcipherment* (we'll pass both) and in the **Extended Key Usage** field you have to had the value "*Document Encryption*" or in the case on openssl we have to use it's numeral value "1.3.6.1.4.1.311.80.1" (this seems to be a Microsoft requirement).
 We pass that using a myconfig.cnf file, find the one I used as example in this repository
 
 
