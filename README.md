@@ -1,5 +1,5 @@
 # Asymetric_RSA_Powershell
-I was browsing [Joel's PSRansom](https://github.com/JoelGMSec/PSRansom) (a ransomware emulator) were he generated a random encryption key, he obfuscate it and then send it to the C2, and I thought it will be a better ransomware simulation if even if you can check the code, and see the obfuscation code, you couldn't get the encryption key.
+I was browsing [Joel's PSRansom](https://github.com/JoelGMSec/PSRansom) (a ransomware emulator) were he generated a random encryption key, he obfuscate it and then send it to the C2, and I thought it will be a better ransomware simulation if even if you can see the code that generate and exfiltrate the encryption key, you couldn't get the encryption key.
 
 For that you have to use asymetric encryption, generate a private key, and a public certificate, load it on the windows target machine, and use it only to encrypt the ransomware encryption key. Send it to the C2 and even if the traffic is sniffed or the code is made public you can not get the key, unless you have the private key to decrypt it. That is safe on the C2.
 
